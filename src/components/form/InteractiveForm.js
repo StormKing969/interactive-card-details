@@ -1,9 +1,7 @@
 import React, { useCallback, useState } from "react";
 import CreditCardLogo from "./img/card-logo.svg";
-import CreditCardBack from "./img/bg-card-back.png";
 
 import "./InteractiveForm.scss";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const InteractiveForm = () => {
   const [creditCardInfo, setCreditCardInfo] = useState({
