@@ -12,15 +12,35 @@ const InteractiveForm = () => {
     cvc: "",
   });
 
-  const handleChange = useCallback(
-    (event) => {
-      event.preventDefault();
-      const name = event.target.name;
-      const value = event.target.value;
+  const handleChange = useCallback((event) => {
+    event.preventDefault();
+    const name = event.target.name;
+    const value = event.target.value;
+
+    if (name === "number" && value.length < 17) {
+        if ((/^[0-9]+$/gi).test(value.slice(-1)) || value.length === 0) {
+            setCreditCardInfo((e) => ({ ...e, [name]: value }));
+        }
+    }
+
+    if (name === "name" && value.length < 22) {
+        if ((/[a-z\s]/i).test(value.slice(-1)) || value.length === 0) {
+            setCreditCardInfo((e) => ({ ...e, [name]: value }));
+        }
+    }
+
+    if (name === "month" && value.length < 3) {
       setCreditCardInfo((e) => ({ ...e, [name]: value }));
-    },
-    [setCreditCardInfo]
-  );
+    }
+
+    if (name === "year" && value.length < 3) {
+      setCreditCardInfo((e) => ({ ...e, [name]: value }));
+    }
+
+    if (name === "cvc" && value.length < 4) {
+      setCreditCardInfo((e) => ({ ...e, [name]: value }));
+    }
+  }, []);
 
   console.log(creditCardInfo);
 
@@ -34,7 +54,16 @@ const InteractiveForm = () => {
             <div className="credit_card_number">
               {creditCardInfo.number === ""
                 ? "0000 0000 0000 0000"
-                : creditCardInfo.number}
+                : `${creditCardInfo.number.substring(
+                    0,
+                    4
+                  )} ${creditCardInfo.number.substring(
+                    4,
+                    8
+                  )} ${creditCardInfo.number.substring(
+                    8,
+                    12
+                  )} ${creditCardInfo.number.substring(12, 16)}`}
             </div>
             <div className="credit_card_details">
               {creditCardInfo.name === "" ? "Jane Doe" : creditCardInfo.name}
@@ -62,9 +91,8 @@ const InteractiveForm = () => {
               type="text"
               name="name"
               required
-              maxLength="24"
-              value={creditCardInfo.name}
               placeholder="Jane Doe"
+              value={creditCardInfo.name}
               onChange={handleChange}
             />
           </div>
@@ -75,12 +103,8 @@ const InteractiveForm = () => {
               type="number"
               name="number"
               required
-              value={
-                !(creditCardInfo.number.length > 16)
-                  ? creditCardInfo.number
-                  : creditCardInfo.number.substring(0, 15)
-              }
               placeholder="0000 0000 0000 0000"
+              value={creditCardInfo.number}
               onChange={handleChange}
             />
           </div>
@@ -93,24 +117,16 @@ const InteractiveForm = () => {
                   type="number"
                   name="month"
                   required
-                  value={
-                    !(creditCardInfo.month.length > 2)
-                      ? creditCardInfo.month
-                      : creditCardInfo.month.substring(0, 2)
-                  }
                   placeholder="MM"
+                  value={creditCardInfo.month}
                   onChange={handleChange}
                 />
                 <input
                   type="number"
                   name="year"
                   required
-                  value={
-                    !(creditCardInfo.year.length > 2)
-                      ? creditCardInfo.year
-                      : creditCardInfo.year.substring(0, 2)
-                  }
                   placeholder="YY"
+                  value={creditCardInfo.year}
                   onChange={handleChange}
                 />
               </div>
@@ -121,12 +137,8 @@ const InteractiveForm = () => {
                 type="number"
                 name="cvc"
                 required
-                value={
-                  !(creditCardInfo.cvc.length > 3)
-                    ? creditCardInfo.cvc
-                    : creditCardInfo.cvc.substring(0, 3)
-                }
                 placeholder="e.g. 123"
+                value={creditCardInfo.cvc}
                 onChange={handleChange}
               />
             </div>
