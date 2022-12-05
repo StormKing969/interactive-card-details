@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import CreditCardLogo from "./img/card-logo.svg";
+import CompleteIcon from "./img/icon-complete.svg";
 
 import "./InteractiveForm.scss";
 
@@ -12,21 +13,23 @@ const InteractiveForm = () => {
     cvc: "",
   });
 
+  const [successfulEntry, setSuccessEntry] = useState(true);
+
   const handleChange = useCallback((event) => {
     event.preventDefault();
     const name = event.target.name;
     const value = event.target.value;
 
     if (name === "number" && value.length < 17) {
-        if ((/^[0-9]+$/gi).test(value.slice(-1)) || value.length === 0) {
-            setCreditCardInfo((e) => ({ ...e, [name]: value }));
-        }
+      if (/^[0-9]+$/gi.test(value.slice(-1)) || value.length === 0) {
+        setCreditCardInfo((e) => ({ ...e, [name]: value }));
+      }
     }
 
     if (name === "name" && value.length < 22) {
-        if ((/[a-z\s]/i).test(value.slice(-1)) || value.length === 0) {
-            setCreditCardInfo((e) => ({ ...e, [name]: value }));
-        }
+      if (/[a-z\s]/i.test(value.slice(-1)) || value.length === 0) {
+        setCreditCardInfo((e) => ({ ...e, [name]: value }));
+      }
     }
 
     if (name === "month" && value.length < 3) {
@@ -42,49 +45,64 @@ const InteractiveForm = () => {
     }
   }, []);
 
-  console.log(creditCardInfo);
+  const entryCheck = (e) => {
+    e.preventDefault();
+    if (
+      creditCardInfo.number.length === 16 &&
+      creditCardInfo.name.length !== 0 &&
+      creditCardInfo.month.length === 2 &&
+      creditCardInfo.year.length === 2 &&
+      creditCardInfo.cvc.length === 3
+    ) {
+      setSuccessEntry(true);
+    } else {
+      setSuccessEntry(false);
+    }
+  };
 
   return (
     <div className="interactive_container">
       <div className="interactive_card">
-        <div className="credit_card_front">
-          <img src={CreditCardLogo} alt="credit card logo" />
+        <div className="small_screen_positioning">
+          <div className="credit_card_front">
+            <img src={CreditCardLogo} alt="credit card logo" />
 
-          <div className="credit_card_content">
-            <div className="credit_card_number">
-              {creditCardInfo.number === ""
-                ? "0000 0000 0000 0000"
-                : `${creditCardInfo.number.substring(
-                    0,
-                    4
-                  )} ${creditCardInfo.number.substring(
-                    4,
-                    8
-                  )} ${creditCardInfo.number.substring(
-                    8,
-                    12
-                  )} ${creditCardInfo.number.substring(12, 16)}`}
-            </div>
-            <div className="credit_card_details">
-              {creditCardInfo.name === "" ? "Jane Doe" : creditCardInfo.name}
+            <div className="credit_card_content">
+              <div className="credit_card_number">
+                {creditCardInfo.number === ""
+                  ? "0000 0000 0000 0000"
+                  : `${creditCardInfo.number.substring(
+                      0,
+                      4
+                    )} ${creditCardInfo.number.substring(
+                      4,
+                      8
+                    )} ${creditCardInfo.number.substring(
+                      8,
+                      12
+                    )} ${creditCardInfo.number.substring(12, 16)}`}
+              </div>
+              <div className="credit_card_details">
+                {creditCardInfo.name === "" ? "Jane Doe" : creditCardInfo.name}
 
-              <div className="credit_card_expiration">
-                {creditCardInfo.month === "" ? "00" : creditCardInfo.month}/
-                {creditCardInfo.year === "" ? "00" : creditCardInfo.year}
+                <div className="credit_card_expiration">
+                  {creditCardInfo.month === "" ? "00" : creditCardInfo.month}/
+                  {creditCardInfo.year === "" ? "00" : creditCardInfo.year}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="credit_card_back">
-          <div className="credit_card_cvc">
-            {creditCardInfo.cvc === "" ? "000" : creditCardInfo.cvc}
+          <div className="credit_card_back">
+            <div className="credit_card_cvc">
+              {creditCardInfo.cvc === "" ? "000" : creditCardInfo.cvc}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="interactive_form">
-        <form>
+        <form className={successfulEntry ? "disable_form_input" : ""}>
           <div className="form_card_entry_name">
             <label>CARDHOLDER NAME</label>
             <input
@@ -143,8 +161,21 @@ const InteractiveForm = () => {
               />
             </div>
           </div>
-          <button type="submit">Confirm</button>
+          <button type="submit" onClick={entryCheck}>
+            Confirm
+          </button>
         </form>
+
+        <div className={successfulEntry ? "thanks" : "disable_form_input"}>
+          <div className="complete_icon">
+            <img src={CompleteIcon} alt="complete icon" />
+          </div>
+          <div className="thanks_content">
+            <h1>Thanks You!</h1>
+            <p>We've added your card details</p>
+          </div>
+          <button type="submit">Continue</button>
+        </div>
       </div>
     </div>
   );
