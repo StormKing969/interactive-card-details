@@ -13,7 +13,7 @@ const InteractiveForm = () => {
     cvc: "",
   });
 
-  const [successfulEntry, setSuccessEntry] = useState(true);
+  const [successfulEntry, setSuccessEntry] = useState(false);
 
   const handleChange = useCallback((event) => {
     event.preventDefault();
@@ -62,40 +62,44 @@ const InteractiveForm = () => {
 
   return (
     <div className="interactive_container">
-      <div className="interactive_card">
-        <div className="small_screen_positioning">
-          <div className="credit_card_front">
-            <img src={CreditCardLogo} alt="credit card logo" />
+      <div className="interactive_card_container">
+        <div className="interactive_card">
+          <div className="small_screen_positioning">
+            <div className="credit_card_front">
+              <img src={CreditCardLogo} alt="credit card logo" />
 
-            <div className="credit_card_content">
-              <div className="credit_card_number">
-                {creditCardInfo.number === ""
-                  ? "0000 0000 0000 0000"
-                  : `${creditCardInfo.number.substring(
-                      0,
-                      4
-                    )} ${creditCardInfo.number.substring(
-                      4,
-                      8
-                    )} ${creditCardInfo.number.substring(
-                      8,
-                      12
-                    )} ${creditCardInfo.number.substring(12, 16)}`}
-              </div>
-              <div className="credit_card_details">
-                {creditCardInfo.name === "" ? "Jane Doe" : creditCardInfo.name}
+              <div className="credit_card_content">
+                <div className="credit_card_number">
+                  {creditCardInfo.number === ""
+                    ? "0000 0000 0000 0000"
+                    : `${creditCardInfo.number.substring(
+                        0,
+                        4
+                      )} ${creditCardInfo.number.substring(
+                        4,
+                        8
+                      )} ${creditCardInfo.number.substring(
+                        8,
+                        12
+                      )} ${creditCardInfo.number.substring(12, 16)}`}
+                </div>
+                <div className="credit_card_details">
+                  {creditCardInfo.name === ""
+                    ? "Jane Doe"
+                    : creditCardInfo.name}
 
-                <div className="credit_card_expiration">
-                  {creditCardInfo.month === "" ? "00" : creditCardInfo.month}/
-                  {creditCardInfo.year === "" ? "00" : creditCardInfo.year}
+                  <div className="credit_card_expiration">
+                    {creditCardInfo.month === "" ? "00" : creditCardInfo.month}/
+                    {creditCardInfo.year === "" ? "00" : creditCardInfo.year}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="credit_card_back">
-            <div className="credit_card_cvc">
-              {creditCardInfo.cvc === "" ? "000" : creditCardInfo.cvc}
+            <div className="credit_card_back">
+              <div className="credit_card_cvc">
+                {creditCardInfo.cvc === "" ? "000" : creditCardInfo.cvc}
+              </div>
             </div>
           </div>
         </div>
