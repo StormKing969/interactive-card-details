@@ -1,10 +1,24 @@
-import InteractiveForm from '../form/InteractiveForm';
-import './App.css';
+import { useState } from "react";
+import Card from "../card/Card";
+import Form from "../form/Form";
+import "./App.css";
 
 function App() {
+  const [creditCardInfo, setCreditCardInfo] = useState({
+    number: "",
+    name: "",
+    month: "",
+    year: "",
+    cvc: "",
+  });
+
   return (
     <div className="App">
-      <InteractiveForm />
+      <Card creditCardInfo={creditCardInfo} />
+      <Form
+        creditCardInfo={creditCardInfo}
+        setCreditCardInfo={setCreditCardInfo}
+      />
     </div>
   );
 }

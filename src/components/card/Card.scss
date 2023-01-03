@@ -1,0 +1,141 @@
+@import "../core/shared/variables";
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+}
+
+.card {
+  width: 100%;
+  height: 200px;
+  background-image: url(./img/bg-main-mobile.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: .5rem 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin-bottom: 5rem;
+}
+
+.back-card {
+  position: relative;
+  margin-left: 20%;
+
+  img {
+    width: 275px;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  .card-cvc {
+    position: absolute;
+    z-index: 99;
+    top: 43%;
+    right: 11%;
+    font-size: .8rem;
+    font-weight: $normal_font_weight;
+    color: $white;
+  }
+}
+
+.front-card {
+  position: absolute;
+  top: 17%;
+  right: 80px;
+
+  img {
+    width: 275px;
+    height: 200px;
+    object-fit: contain;
+    position: relative;
+  }
+
+  .card-logo {
+    position: absolute;
+    z-index: 999;
+    top: 15%;
+    left: 5%;
+
+    img {
+        width: 2.2rem;
+        height: 2.2rem;
+        object-fit: contain;
+      }
+  }
+
+  .card-content-info {
+    position: absolute;
+    z-index: 999;
+    top: 45%;
+    left: 5%;
+    width: 90%;
+    text-transform: uppercase;
+    color: $white;
+
+    .card-number {
+        width: 100%;
+        letter-spacing: .2rem;
+    }
+
+    .card-details {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.4rem;
+        font-size: .8rem;
+        font-weight: $normal_font_weight;
+    }
+  }
+}
+
+@media screen and (min-width: 715px) {
+    .card-container {
+        height: 100vh;
+        width: 100%;
+    }
+
+    .card {
+        height: 100%;
+        align-items: initial;
+        justify-content: right;
+        margin-bottom: 0;
+        padding-right: 1rem;
+    }
+
+    .back-card {
+        margin-top: 20rem;
+
+        .card-cvc  {
+            top: 5.6rem;
+        }
+    }   
+
+    .front-card {
+        top: 8rem;
+        left: 4rem;
+
+        .card-logo {
+            left: 2%;
+        }
+
+        .card-content-info {
+            padding-left: 2%;
+            left: 0;
+            width: calc(275px - 4%);   
+    
+            .card-number {
+                width: 275px;
+            }
+
+            .card-details {
+                // justify-content: space-around;
+            }
+        }
+    }
+}   
