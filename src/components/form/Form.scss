@@ -133,5 +133,13 @@
 }
 
 @media screen and (min-width: 715px) {
+    .form-container {
+        width: 150vW;
+    }
     
+    .interactive-form {
+        width: 70%;
+        justify-content: center;
+        margin: 0 auto;
+    }
 }

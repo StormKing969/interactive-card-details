@@ -97,19 +97,16 @@
 @media screen and (min-width: 715px) {
     .card-container {
         height: 100vh;
-        width: 100%;
     }
 
     .card {
         height: 100%;
-        align-items: initial;
-        justify-content: right;
         margin-bottom: 0;
-        padding-right: 1rem;
+        justify-content: right;
     }
 
     .back-card {
-        margin-top: 20rem;
+        margin-top: 10rem;
 
         .card-cvc  {
             top: 5.6rem;
@@ -117,7 +114,7 @@
     }   
 
     .front-card {
-        top: 8rem;
+        top: 4rem;
         left: 4rem;
 
         .card-logo {
