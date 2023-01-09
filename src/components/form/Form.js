@@ -116,7 +116,7 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
     }
 
     return (
-        <div className="right_section">
+        <section className="right_section">
             <form className={checkEntry ? "hidden" : ""}>
                 <div className={nameError ? "card_name_entry error_text" : "card_name_entry"}>
                     <label htmlFor="card_name">Cardholder Name</label>
@@ -205,7 +205,7 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
                 <p>We've added your card details</p>
                 <button onClick={refreshPage}>Continue</button>
             </div>
-        </div>
+        </section>
     );
 };
 

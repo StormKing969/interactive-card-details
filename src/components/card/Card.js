@@ -7,7 +7,7 @@ import "./Card.scss";
 
 const Card = ({ creditCardInfo }) => {
     return (
-        <div className="left_section">
+        <section className="left_section">
             <div className="cards">
                 <div className="front_card">
                     <img src={CardFront} alt="credit card front" />
@@ -59,7 +59,7 @@ const Card = ({ creditCardInfo }) => {
                     </span>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -13,13 +13,13 @@ function App() {
     });
 
     return (
-        <div className="App">
+        <main className="App">
             <Card creditCardInfo={creditCardInfo} />
             <Form
                 creditCardInfo={creditCardInfo}
                 setCreditCardInfo={setCreditCardInfo}
             />
-        </div>
+        </main>
     );
 }
 
