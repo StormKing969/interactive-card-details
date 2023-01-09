@@ -4,160 +4,209 @@ import CompleteIcon from "./img/icon-complete.svg";
 import "./Form.scss";
 
 const Form = ({ creditCardInfo, setCreditCardInfo }) => {
-  const [successfulEntry, setSuccessfulEntry] = useState(false);
-  const [basicCheck, setBasicCheck] = useState(false);
-  const [expDateCheck, setExpDateCheck] = useState(false);
+    const [checkEntry, setCheckEntry] = useState(false)
+    const [nameError, setNameError] = useState(false)
+    const [numberError, setNumberError] = useState(false)
+    const [monthError, setMonthError] = useState(false)
+    const [yearError, setYearError] = useState(false)
+    const [cvcError, setCvcError] = useState(false)
 
-  const handleChange = useCallback(
-    (event) => {
-      event.preventDefault();
-      const name = event.target.name;
-      const value = event.target.value;
+    const handleChange = useCallback(
+        (e) => {
+            const name = e.target.name;
+            const value = e.target.value;
 
-      if (name === "number" && value.length < 17) {
-        if (/^[0-9]+$/gi.test(value.slice(-1)) || value.length === 0) {
-          setCreditCardInfo((e) => ({ ...e, [name]: value }));
+            if (name === "number" && value.length < 17) {
+                if (/^[0-9]+$/gi.test(value.slice(-1)) || value.length === 0) {
+                    setCreditCardInfo((e) => ({ ...e, [name]: value }));
+                }
+            }
+
+            if (name === "name" && value.length < 22) {
+                if (/[a-z\s]/i.test(value.slice(-1)) || value.length === 0) {
+                    setCreditCardInfo((e) => ({ ...e, [name]: value }));
+                }
+            }
+
+            if (name === "month" && value.length < 3) {
+                setCreditCardInfo((e) => ({ ...e, [name]: value }));
+            }
+
+            if (name === "year" && value.length < 3) {
+                setCreditCardInfo((e) => ({ ...e, [name]: value }));
+            }
+
+            if (name === "cvc" && value.length < 4) {
+                setCreditCardInfo((e) => ({ ...e, [name]: value }));
+            }
+        },
+        [setCreditCardInfo]
+    );
+
+    const checkName = () => {
+        if (creditCardInfo.name.length < 3) {
+            setNameError(true)
+        } else {
+            setNameError(false)
+            return true;
         }
-      }
+        return false;
+    }
 
-      if (name === "name" && value.length < 22) {
-        if (/[a-z\s]/i.test(value.slice(-1)) || value.length === 0) {
-          setCreditCardInfo((e) => ({ ...e, [name]: value }));
+    const checkNumber = () => {
+        if (creditCardInfo.number.length !== 16) {
+            setNumberError(true)
+        } else {
+            setNumberError(false)
+            return true;
         }
-      }
-
-      if (name === "month" && value.length < 3 && value.length > 0) {
-        setCreditCardInfo((e) => ({ ...e, [name]: value }));
-      }
-
-      if (name === "year" && value.length < 3) {
-        setCreditCardInfo((e) => ({ ...e, [name]: value }));
-      }
-
-      if (name === "cvc" && value.length < 4) {
-        setCreditCardInfo((e) => ({ ...e, [name]: value }));
-      }
-    },
-    [setCreditCardInfo]
-  );
-
-  let currentYear = new Date().getFullYear();
-  currentYear = currentYear.toString().slice(-2) - 5;
-
-  const expirationInputCheck = () => {
-    if (
-      creditCardInfo.month < 13 &&
-      creditCardInfo.month !== 0 &&
-      creditCardInfo.year >= currentYear
-    ) {
-      setExpDateCheck(true);
-    } else {
-      setExpDateCheck(false);
+        return false;
     }
-  };
 
-  const basicInputCheck = () => {
-    if (
-      creditCardInfo.number.length === 16 &&
-      creditCardInfo.name.length !== 0 &&
-      creditCardInfo.month.length === 2 &&
-      creditCardInfo.year.length === 2 &&
-      creditCardInfo.cvc.length === 3
-    ) {
-      setBasicCheck(true);
-    } else {
-      setBasicCheck(false);
+    const checkMonth = () => {
+        if (!(creditCardInfo.month > 0 && creditCardInfo.month < 13)) {
+            setMonthError(true)
+        } else {
+            setMonthError(false)
+            return true;
+        }
+        return false;
     }
-  };
 
-  const entryCheck = (e) => {
-    e.preventDefault();
-    expirationInputCheck();
-    basicInputCheck();
-    if (expDateCheck && basicCheck) {
-      setSuccessfulEntry(true);
+    const checkYear = () => {
+        let currentYear = new Date().getFullYear();
+        currentYear = currentYear.toString().slice(-2) - 5;
+
+        if (!(creditCardInfo.year >= currentYear)) {
+            setYearError(true)
+        } else {
+            setYearError(false)
+            return true;
+        }
+        return false;
     }
-  };
 
-  return (
-    <div className="form-container">
-      <form className={successfulEntry ? "disable-form" : "interactive-form"}>
-        <div className="name-entry entry-box">
-          <label>Cardholder Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            placeholder="e.g. Jane Appleseed"
-            value={creditCardInfo.name}
-            onChange={handleChange}
-          />
-        </div>
+    const checkCvc = () => {
+        if (creditCardInfo.cvc.length !== 3) {
+            setCvcError(true)
+        } else {
+            setCvcError(false)
+            return true;
+        }
+        return false;
+    }
 
-        <div className="number-entry entry-box">
-          <label>Card Number</label>
-          <input
-            type="number"
-            name="number"
-            required
-            placeholder="e.g. 1234 5678 9123 0000"
-            value={creditCardInfo.number}
-            onChange={handleChange}
-          />
-        </div>
+    const entryValidation = (e) => {
+        e.preventDefault()
+        checkName()
+        checkNumber()
+        checkMonth()
+        checkYear()
+        checkCvc()
 
-        <div className="other-detail-entry entry-box">
-          <div className="expiration-entry">
-            <label>Exp. Date (MM/YY)</label>
-            <div>
-              <input
-                type="number"
-                name="month"
-                required
-                placeholder="MM"
-                value={creditCardInfo.month}
-                onChange={handleChange}
-              />
-              <input
-                type="number"
-                name="year"
-                required
-                placeholder="YY"
-                value={creditCardInfo.year}
-                onChange={handleChange}
-              />
+        if (checkName() && checkNumber() && checkMonth() && checkYear() && checkCvc()) {
+            setCheckEntry(true);
+            return
+        } 
+        setCheckEntry(false);
+    };
+
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
+    return (
+        <div className="right_section">
+            <form className={checkEntry ? "hidden" : ""}>
+                <div className={nameError ? "card_name_entry error_text" : "card_name_entry"}>
+                    <label htmlFor="card_name">Cardholder Name</label>
+                    <input
+                        type="text"
+                        className={nameError ? "error" : ""}
+                        id="card_name"
+                        name="name"
+                        placeholder="e.g. Jane Appleseed"
+                        onInput={handleChange}
+                        value={creditCardInfo.name}
+                        required
+                    />
+                </div>
+
+                <div className={numberError ? "card_number_entry error_text" : "card_number_entry"}>
+                    <label htmlFor="card_number">Card Number</label>
+                    <input
+                        type="number"
+                        className={numberError ? "error" : ""}
+                        id="card_number"
+                        name="number"
+                        placeholder="e.g. 1234 5678 9123 0000"
+                        onInput={handleChange}
+                        value={creditCardInfo.number}
+                        required
+                    />
+                </div>
+
+                <div className="card_information">
+                    <div className={yearError || monthError ? "card_date_entry error_text" : "card_date_entry"}>
+                        <label htmlFor="card_date">Exp. Date (MM/YY)</label>
+                        <div className="expiration_entry">
+                            <div>
+                                <input
+                                    type="number"
+                                    className={monthError ? "error" : ""}
+                                    id="card_month"
+                                    name="month"
+                                    placeholder="MM"
+                                    onInput={handleChange}
+                                    value={creditCardInfo.month}
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <input
+                                    type="number"
+                                    className={yearError ? "error" : ""}
+                                    id="card_year"
+                                    name="year"
+                                    placeholder="YY"
+                                    onInput={handleChange}
+                                    value={creditCardInfo.year}
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={cvcError ? "card_cvc_entry error_text" : "card_cvc_entry"}>
+                        <label htmlFor="card_cvc">CVC</label>
+                        <input
+                            type="number"
+                            className={cvcError ? "error" : ""}
+                            id="card_cvc"
+                            name="cvc"
+                            placeholder="e.g. 123"
+                            onInput={handleChange}
+                            value={creditCardInfo.cvc}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <button className="submit_btn" type="submit"
+                onClick={entryValidation}>
+                    Confirm
+                </button>
+            </form>
+
+            <div className={checkEntry ? "thanks" : "hidden"}>
+                <img src={CompleteIcon} alt="Complete Icon" />
+                <h1>Thank You</h1>
+                <p>We've added your card details</p>
+                <button onClick={refreshPage}>Continue</button>
             </div>
-          </div>
-
-          <div className="cvc-entry">
-            <label>Cvc</label>
-            <input
-              type="number"
-              name="cvc"
-              required
-              placeholder="e.g. 123"
-              value={creditCardInfo.cvc}
-              onChange={handleChange}
-            />
-          </div>
         </div>
-        <button className="entry-button" onClick={entryCheck}>
-          Confirm
-        </button>
-      </form>
-
-      <div className={successfulEntry ? "thanks-form" : "disable-form"}>
-        <div className="complete-icon">
-          <img src={CompleteIcon} alt="complete icon" />
-        </div>
-        <div className="thanks-content">
-          <h1>Thanks You!</h1>
-          <p>We've added your card details</p>
-        </div>
-        <button className="continue-button">Continue</button>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Form;
