@@ -154,7 +154,7 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
                                 <input
                                     type="number"
                                     className={monthError ? "error" : ""}
-                                    id="card_month"
+                                    id="card_date"
                                     name="month"
                                     placeholder="MM"
                                     onInput={handleChange}
@@ -167,7 +167,7 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
                                 <input
                                     type="number"
                                     className={yearError ? "error" : ""}
-                                    id="card_year"
+                                    id="card_date"
                                     name="year"
                                     placeholder="YY"
                                     onInput={handleChange}
