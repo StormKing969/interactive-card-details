@@ -148,13 +148,13 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
 
                 <div className="card_information">
                     <div className={yearError || monthError ? "card_date_entry error_text" : "card_date_entry"}>
-                        <label htmlFor="card_date">Exp. Date (MM/YY)</label>
+                        <label>Exp. Date (MM/YY)</label>
                         <div className="expiration_entry">
                             <div>
                                 <input
                                     type="number"
                                     className={monthError ? "error" : ""}
-                                    id="card_date"
+                                    id="card_month"
                                     name="month"
                                     placeholder="MM"
                                     onInput={handleChange}
@@ -167,7 +167,7 @@ const Form = ({ creditCardInfo, setCreditCardInfo }) => {
                                 <input
                                     type="number"
                                     className={yearError ? "error" : ""}
-                                    id="card_date"
+                                    id="card_year"
                                     name="year"
                                     placeholder="YY"
                                     onInput={handleChange}
