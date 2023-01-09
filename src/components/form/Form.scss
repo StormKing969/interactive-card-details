@@ -70,6 +70,7 @@ input {
 
 .card_information {
     display: flex;
+    justify-content: space-between;
     grid-column: 2 span;
     gap: 1rem;
 }
